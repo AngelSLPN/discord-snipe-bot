@@ -1,0 +1,17 @@
+{
+  "name": "discord-snipe-bot",
+  "version": "0.0.1",
+  "description": "Discord Bot for managing snipe / scrim games for FortNite",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tamas Sule",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^11.4.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.6.1"
+  }
+}
