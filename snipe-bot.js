@@ -7,10 +7,13 @@ class SnipeBot {
   constructor(client) {
     this._client = client;
     this._messageProcessor = new MessageProcessor();
+    this._lookupGuild();
+    this._lookupChannels();
+    this._lookupRoles();
   }
 
   _lookupChannels() {
-    this._soloCodesChannel = this._client.channels.find(
+    this._soloCodesChannel = this._guild.channels.find(
       channel => channel.name === config.codeChannels.solo
     );
 
@@ -30,9 +33,6 @@ class SnipeBot {
   }
 
   run() {
-    this._lookupGuild();
-    this._lookupChannels();
-    this._lookupRoles();
     this._lockSoloCodesChannel();
     this._registerMessageHandlers();
     this._addMessageProcessor();
