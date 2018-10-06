@@ -7,8 +7,6 @@ class SnipeBot {
   constructor(client) {
     this._client = client;
     this._messageProcessor = new MessageProcessor();
-    this._lookupChannels();
-    this._askForSoloCodes();
   }
 
   _lookupChannels() {
@@ -21,7 +19,21 @@ class SnipeBot {
     }
   }
 
+  _lookupGuild() {
+    this._guild = this._client.guilds.find(guild => guild.name === 'wearewhoweare');
+  }
+
+  _lookupRoles() {
+    this._everyoneRole = this._guild.roles.find(
+      role => role.name === '@everyone'
+    );
+  }
+
   run() {
+    this._lookupGuild();
+    this._lookupChannels();
+    this._lookupRoles();
+    this._lockSoloCodesChannel();
     this._registerMessageHandlers();
     this._addMessageProcessor();
   }
@@ -32,6 +44,20 @@ class SnipeBot {
 
   _addMessageProcessor() {
     this._client.on('message', this._messageProcessor.process);
+  }
+
+  async _lockSoloCodesChannel() {
+    try {
+      const updatePermission = await this._soloCodesChannel.overwritePermissions(this._everyoneRole, {
+        SEND_MESSAGES: false
+      });
+
+      if(updatePermission) {
+        console.log('successfully locked the Solo Codes channel');
+      }
+    } catch(err) {
+      console.error(err);
+    }
   }
 
   async _askForSoloCodes() {
